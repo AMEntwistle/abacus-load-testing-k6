@@ -1,0 +1,9 @@
+{"users": [
+    {
+      "username": "<MY_USER_EMAIL>",
+      "password": "<MY_U§SER_PASSWORD>",
+      "profileId": 1234,
+      "profileUuid": "<MY_PROFILE_UUID>"
+    }
+  ]
+}
