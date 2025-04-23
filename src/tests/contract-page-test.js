@@ -1,17 +1,17 @@
 import { sleep } from 'k6';
 import { randomItem } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
-import { setupTokens } from './setupToken.js';
-import { executeGraphQLRequests } from "./graphqlRequests.js";
+import { setupTokens } from '../setup/setupToken.js';
+import { executeGraphQLRequests } from "../helpers/graphqlRequests.js";
 import { browser } from "k6/browser";
-import { setupMetrics } from "./setupMetrics.js";
-import { verifyPageLoad } from "./frontend/verifyPageLoad.js";
-import { login } from "./frontend/commonNavigation.js";
+import { setupMetrics } from "../setup/setupMetrics.js";
+import { verifyPageLoad } from "../frontend/verifyPageLoad.js";
+import { login } from "../frontend/commonNavigation.js";
 
 const GRAPHQL_URL = __ENV.GRAPHQL_URL;
 
 // Load request variables and user data
-const requestVariables = JSON.parse(open('variables/requestVariables.json'));
-const users = JSON.parse(open('variables/user-data.json')).users;
+const requestVariables = JSON.parse(open('../variables/requestVariables.json'));
+const users = JSON.parse(open('../variables/user-data.json')).users;
 
 export function setup() {
     return setupTokens(users); // Preload tokens and share with VUs

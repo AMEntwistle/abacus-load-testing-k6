@@ -1,4 +1,4 @@
-import * as queries from './graphqlQueries/index.js';
+import * as queries from '../graphqlQueries/index.js';
 
 export function loadQuery(queryFileName) {
     const query = queries[`${queryFileName}Query`];
