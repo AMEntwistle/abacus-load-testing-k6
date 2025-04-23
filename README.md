@@ -8,8 +8,6 @@ This project is designed to test the performance of GraphQL APIs and frontend pa
 - [Setup](#setup)
 - [Environment Variables](#environment-variables)
 - [Usage](#usage)
-- [Metrics](#metrics)
-- [File Structure](#file-structure)
 
 ## Project Overview
 The project includes:
@@ -35,7 +33,8 @@ The project includes:
 
 5. Add a src/variables/user-data.json file using the user-data.shadow.json as a template.
 
-6. Run the tests with make e.g:
+## Usage
+Run the tests with make e.g:
     ```bash
     make run_k6_test TEST_FILE=contract-page-test.js
     ```

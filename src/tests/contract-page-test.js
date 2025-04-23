@@ -98,5 +98,8 @@ export async function frontendContractPageVisit() {
         '.ContractDetail-PhysicalReserve',
     ]
     await verifyPageLoad(page, expectedElements, metrics.frontendFailures);
-
+    await page.click('#ContractDetail-tabs-tab-advance')
+    await verifyPageLoad(page, ['.AdvanceList'], metrics.frontendFailures);
+    await page.click('#ContractDetail-tabs-tab-distribution')
+    await verifyPageLoad(page, ['.DistributionList'], metrics.frontendFailures);
 }
