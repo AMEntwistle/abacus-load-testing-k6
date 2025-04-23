@@ -1,12 +1,12 @@
 import http from 'k6/http';
-import { check } from 'k6';
+import { check, fail } from 'k6';
 import { loadQuery } from './loadQuery.js';
 
-export async function executeGraphQLRequests(requests, token, user, graphqlUrl) {
-    for (const { queryFile, variables } of requests) {
-        const query = await loadQuery(queryFile);
-        const body = JSON.stringify({ query, variables });
 
+export async function executeGraphQLRequests(requests, token, user, graphqlUrl, gqlTrends, gqlFailures) {
+    for (const queryFile in requests) {
+        const query = await loadQuery(queryFile);
+        const body = JSON.stringify({ query, variables: requests[queryFile] });
         const headers = {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -17,14 +17,25 @@ export async function executeGraphQLRequests(requests, token, user, graphqlUrl) 
             'Cache-Control': 'no-cache',
         };
 
+        const start = Date.now();
         const res = http.post(`${graphqlUrl}?op=${queryFile}`, body, { headers });
+        const duration = Date.now() - start;
 
-        check(res, {
+        gqlTrends[queryFile].add(duration);
+
+        const success = check(res, {
             'is status 200': (r) => r.status === 200,
             'no GraphQL errors': (r) => {
+                if (r.body.includes('403: Grass does not authorize this request.')) {
+                    fail('Grass does not authorize this request.');
+                }
                 const responseJson = r.json();
                 return !responseJson.errors;
             },
         });
+
+        if (!success) {
+            gqlFailures[queryFile].add(1); // Increment failure counter
+        }
     }
 }

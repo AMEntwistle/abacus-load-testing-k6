@@ -19,8 +19,14 @@ function fetchToken(user) {
 
     if (res.status === 200) {
         const response = res.json();
+        const { access_token: accessToken, expires_in: expiresIn, id_token: idToken } = response;
+
         if (response.access_token) {
-            return response.access_token;
+            return {
+                accessToken,
+                expiresIn,
+                idToken,
+            };
         } else {
             throw new Error(`No access token in response for user: ${user.username}`);
         }
