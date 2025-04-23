@@ -4,3 +4,7 @@ export async function login(page, user) {
     await page.type('#password', user.password); // Replace with the password
     await page.click('button[type="submit"]'); // Click the login button
 }
+
+export function getDataTestId(id) {
+    return `[data-testid="${id}"]`;
+}

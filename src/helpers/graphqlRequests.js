@@ -36,6 +36,7 @@ export async function executeGraphQLRequests(requests, token, user, graphqlUrl, 
 
         if (!success) {
             metrics.gqlFailures[queryFile].add(1); // Increment failure counter
+            console.error(`Request failed for query: ${queryFile}, Response: ${res.body}`);
         }
     }
 }

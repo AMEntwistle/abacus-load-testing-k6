@@ -14,7 +14,7 @@ export async function verifyPageLoad(page, expectedElements, frontendFailures) {
         return document.body.innerText.includes('snag');
     });
     if (isSnagPresent) {
-        await page.screenshot({ path: `failed-page-${Date.now()}.png` });
+        await page.screenshot({ path: `screenshots/failed-page-${Date.now()}.png` });
         frontendFailures.add(1);
         fail('The word "snag" should not be present on the page but was found.');
     }
