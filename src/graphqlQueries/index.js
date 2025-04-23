@@ -12,3 +12,5 @@ export { getContractAdvancesByStatusQuery } from './getContractAdvancesByStatus.
 export { getContractAdvancesPaidQuery } from './getContractAdvancesPaid.js';
 export { canPerformQuery } from './canPerform.js';
 export { getNotificationsQuery } from './getNotifications.js';
+export { getAccountsListQuery } from './getAccountsList.js';
+export { getContractsListQuery } from './getContractsList.js';
