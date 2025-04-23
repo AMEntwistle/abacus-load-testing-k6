@@ -4,11 +4,7 @@ import { setupTokens } from '../setup/setupToken.js';
 import { executeGraphQLRequests } from "../helpers/graphqlRequests.js";
 import { browser } from "k6/browser";
 import { setupMetrics } from "../setup/setupMetrics.js";
-import { verifyPageLoad } from "../frontend/verifyPageLoad.js";
-import { login } from "../frontend/commonNavigation.js";
 import { LoginPage } from "../frontend/pageObjects/loginPage.js";
-import { ContractsPage } from "../frontend/pageObjects/abacus/contractsPage.js";
-import { ContractPage } from "../frontend/pageObjects/abacus/contractPage.js";
 import { AccountsPage } from "../frontend/pageObjects/abacus/accountsPage.js";
 import { AccountPage } from "../frontend/pageObjects/abacus/accountPage.js";
 
