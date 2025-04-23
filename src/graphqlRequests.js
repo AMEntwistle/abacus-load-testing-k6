@@ -3,7 +3,7 @@ import { check, fail } from 'k6';
 import { loadQuery } from './loadQuery.js';
 
 
-export async function executeGraphQLRequests(requests, token, user, graphqlUrl, gqlTrends, gqlFailures) {
+export async function executeGraphQLRequests(requests, token, user, graphqlUrl, metrics) {
     for (const queryFile in requests) {
         const query = await loadQuery(queryFile);
         const body = JSON.stringify({ query, variables: requests[queryFile] });
@@ -21,7 +21,7 @@ export async function executeGraphQLRequests(requests, token, user, graphqlUrl, 
         const res = http.post(`${graphqlUrl}?op=${queryFile}`, body, { headers });
         const duration = Date.now() - start;
 
-        gqlTrends[queryFile].add(duration);
+        metrics.gqlTrends[queryFile].add(duration);
 
         const success = check(res, {
             'is status 200': (r) => r.status === 200,
@@ -35,7 +35,7 @@ export async function executeGraphQLRequests(requests, token, user, graphqlUrl, 
         });
 
         if (!success) {
-            gqlFailures[queryFile].add(1); // Increment failure counter
+            metrics.gqlFailures[queryFile].add(1); // Increment failure counter
         }
     }
 }
