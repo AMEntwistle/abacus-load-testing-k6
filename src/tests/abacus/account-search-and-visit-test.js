@@ -1,8 +1,11 @@
+// noinspection NpmUsedModulesInstalled
 import { sleep } from 'k6'
+// noinspection JSFileReferences
 import { randomItem } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js'
+// noinspection NpmUsedModulesInstalled
+import { browser } from 'k6/browser'
 import { setupTokens } from '../../setup/setupToken.js'
 import { executeGraphQLRequests } from '../../helpers/graphqlRequests.js'
-import { browser } from 'k6/browser'
 import { setupMetrics } from '../../setup/setupMetrics.js'
 import { LoginPage } from '../../frontend/pageObjects/loginPage.js'
 import { AccountsPage } from '../../frontend/pageObjects/abacus/accountsPage.js'
