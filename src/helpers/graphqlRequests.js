@@ -3,9 +3,9 @@ import { check, fail } from 'k6';
 import { loadQuery } from './loadQuery.js';
 
 
-export async function executeGraphQLRequests(requests, token, user, graphqlUrl, metrics) {
+export async function executeGraphQLRequests(requests, application, token, user, graphqlUrl, metrics) {
     for (const queryFile in requests) {
-        const query = await loadQuery(queryFile);
+        const query = await loadQuery(queryFile, application);
         const body = JSON.stringify({ query, variables: requests[queryFile] });
         const headers = {
             'Content-Type': 'application/json',

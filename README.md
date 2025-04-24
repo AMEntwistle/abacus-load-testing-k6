@@ -36,5 +36,5 @@ The project includes:
 ## Usage
 Run the tests with make e.g:
 
-    make run_k6_test TEST_FILE=contract-page-test.js
+    make run_k6_test TEST_FILE=abacus/contract-page-test.js
     

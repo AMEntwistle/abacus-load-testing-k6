@@ -1,18 +1,19 @@
 import { sleep } from 'k6';
 import { randomItem } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
-import { setupTokens } from '../setup/setupToken.js';
-import { executeGraphQLRequests } from "../helpers/graphqlRequests.js";
+import { setupTokens } from '../../setup/setupToken.js';
+import { executeGraphQLRequests } from "../../helpers/graphqlRequests.js";
 import { browser } from "k6/browser";
-import { setupMetrics } from "../setup/setupMetrics.js";
-import { LoginPage } from "../frontend/pageObjects/loginPage.js";
-import { AccountsPage } from "../frontend/pageObjects/abacus/accountsPage.js";
-import { AccountPage } from "../frontend/pageObjects/abacus/accountPage.js";
+import { setupMetrics } from "../../setup/setupMetrics.js";
+import { LoginPage } from "../../frontend/pageObjects/loginPage.js";
+import { AccountsPage } from "../../frontend/pageObjects/abacus/accountsPage.js";
+import { AccountPage } from "../../frontend/pageObjects/abacus/accountPage.js";
 
 const GRAPHQL_URL = __ENV.GRAPHQL_URL;
+const application = 'abacus';
 
 // Load request variables and user data
-const requestVariables = JSON.parse(open('../variables/requestVariables.json'));
-const users = JSON.parse(open('../variables/user-data.json')).users;
+const requestVariables = JSON.parse(open('../../variables/requestVariables.json'));
+const users = JSON.parse(open('../../variables/user-data.json')).users;
 
 export function setup() {
     return setupTokens(users); // Preload tokens and share with VUs
@@ -86,10 +87,10 @@ const accountPageRequests = {
         const accountId = randomItem(requestVariables.accountId);
 
         // Land on accounts page
-        await executeGraphQLRequests(accountsPageRequests, token, user, GRAPHQL_URL, metrics);
+        await executeGraphQLRequests(accountsPageRequests, application, token, user, GRAPHQL_URL, metrics);
         // Perform search
         searchRequest.getAccountsList.searchTerm = `${accountId}`;
-        await executeGraphQLRequests(searchRequest, token, user, GRAPHQL_URL, metrics);
+        await executeGraphQLRequests(searchRequest, application, token, user, GRAPHQL_URL, metrics);
         // Perform account page visit
         // Update the request variables with the selected accountId
         Object.entries(accountPageRequests).forEach(([key, value]) => {
@@ -98,7 +99,7 @@ const accountPageRequests = {
             }
         });
 
-        await executeGraphQLRequests(accountPageRequests, token, user, GRAPHQL_URL, metrics)
+        await executeGraphQLRequests(accountPageRequests, application, token, user, GRAPHQL_URL, metrics)
 
         sleep(Math.random() * (30 - 1) + 1);
     }

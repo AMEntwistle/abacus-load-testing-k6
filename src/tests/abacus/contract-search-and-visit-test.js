@@ -1,18 +1,19 @@
 import { sleep } from 'k6';
 import { randomItem } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
-import { setupTokens } from '../setup/setupToken.js';
-import { executeGraphQLRequests } from "../helpers/graphqlRequests.js";
+import { setupTokens } from '../../setup/setupToken.js';
+import { executeGraphQLRequests } from "../../helpers/graphqlRequests.js";
 import { browser } from "k6/browser";
-import { setupMetrics } from "../setup/setupMetrics.js";
-import { LoginPage } from "../frontend/pageObjects/loginPage.js";
-import { ContractsPage } from "../frontend/pageObjects/abacus/contractsPage.js";
-import { ContractPage } from "../frontend/pageObjects/abacus/contractPage.js";
+import { setupMetrics } from "../../setup/setupMetrics.js";
+import { LoginPage } from "../../frontend/pageObjects/loginPage.js";
+import { ContractsPage } from "../../frontend/pageObjects/abacus/contractsPage.js";
+import { ContractPage } from "../../frontend/pageObjects/abacus/contractPage.js";
 
 const GRAPHQL_URL = __ENV.GRAPHQL_URL;
+const application = 'abacus';
 
 // Load request variables and user data
-const requestVariables = JSON.parse(open('../variables/requestVariables.json'));
-const users = JSON.parse(open('../variables/user-data.json')).users;
+const requestVariables = JSON.parse(open('../../variables/requestVariables.json'));
+const users = JSON.parse(open('../../variables/user-data.json')).users;
 
 export function setup() {
     return setupTokens(users); // Preload tokens and share with VUs
@@ -94,10 +95,10 @@ export async function backendContractSearchAndVisit(tokenCache) {
     const contractId = randomItem(requestVariables.contractId);
 
     // Land on contracts page
-    await executeGraphQLRequests(contractsPageRequests, token, user, GRAPHQL_URL, metrics);
+    await executeGraphQLRequests(contractsPageRequests, application, token, user, GRAPHQL_URL, metrics);
     // Perform search
     searchRequest.getContractsList.searchTerm = `${contractId}`;
-    await executeGraphQLRequests(searchRequest, token, user, GRAPHQL_URL, metrics);
+    await executeGraphQLRequests(searchRequest, application, token, user, GRAPHQL_URL, metrics);
     // Perform contract page visit
     // Update the request variables with the selected contractId
     Object.entries(contractPageRequests).forEach(([key, value]) => {
@@ -106,7 +107,7 @@ export async function backendContractSearchAndVisit(tokenCache) {
         }
     });
 
-    await executeGraphQLRequests(contractPageRequests, token, user, GRAPHQL_URL, metrics)
+    await executeGraphQLRequests(contractPageRequests, application, token, user, GRAPHQL_URL, metrics)
 
     sleep(Math.random() * (30 - 1) + 1);
 }
