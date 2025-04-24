@@ -27,4 +27,4 @@ export const getAccountsListQuery = `
     __typename
   }
 }
-`;
+`

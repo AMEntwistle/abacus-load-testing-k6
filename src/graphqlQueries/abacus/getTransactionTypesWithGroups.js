@@ -12,4 +12,4 @@ export const getTransactionTypesWithGroupsQuery = `
       __typename
     }
   }
-`;
+`

@@ -6,4 +6,4 @@ export const getAccountByIdQuery = `
       __typename
     }
   }
-`;
+`

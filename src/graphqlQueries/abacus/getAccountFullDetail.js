@@ -125,4 +125,4 @@ query GetAccountFullDetail($accountId: ID!) {
     __typename
   }
 }
-`;
+`

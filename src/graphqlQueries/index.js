@@ -1,3 +1,3 @@
-import * as abacusQueries from './abacus/index.js';
+import * as abacusQueries from './abacus/index.js'
 
-export { abacusQueries };
+export { abacusQueries }

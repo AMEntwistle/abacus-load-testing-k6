@@ -32,4 +32,4 @@ export const getContractsListQuery = `
     __typename
   }
 }
-`;
+`
